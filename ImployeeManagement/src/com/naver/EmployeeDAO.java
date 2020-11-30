@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -153,5 +152,35 @@ public class EmployeeDAO {
 		}
 	}
 	
+	public void delete(EmployeeDTO dto) {
+		// 출근정보 삭제 후 사원정보 삭제 (테이블 상속관계 때문에 이렇게 처리함)
+		// 실행 검증됨
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "DELETE FROM attendee WHERE id = ?";
+		String sql2 = "DELETE FROM employee WHERE id = ?";
+		
+		try {
+			conn = DriverManager.getConnection(URL, USER_NAME, USER_PASSWORD);
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getId());
+			pstmt.executeUpdate();
+			
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			
+			pstmt = conn.prepareStatement(sql2);
+			pstmt.setString(1, dto.getId());
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(null, pstmt, conn);
+		}
+		
+	}
 	
 }

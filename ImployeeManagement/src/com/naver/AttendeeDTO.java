@@ -1,7 +1,7 @@
 package com.naver;
 
 import java.io.Serializable;
-import java.sql.Date;
+
 
 public class AttendeeDTO implements Serializable{
 
