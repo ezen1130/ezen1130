@@ -3,64 +3,51 @@ package com.naver;
 import java.io.Serializable;
 import java.sql.Date;
 
-public class AttendeeDTO implements Serializable {
+public class AttendeeDTO implements Serializable{
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String id;
 	private String name;
-	private Date intime;
-	private Date exittime;
-
-	public AttendeeDTO() {
-		// TODO Auto-generated constructor stub
+	private String intime;
+	private String exittime;
+	
+	public String getId() {
+		return id;
 	}
-
-	public AttendeeDTO(String id, String name, Date intime, Date exittme) {
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getIntime() {
+		return intime;
+	}
+	public void setIntime(String intime) {
+		this.intime = intime;
+	}
+	public String getExittime() {
+		return exittime;
+	}
+	public void setExittime(String exittime) {
+		this.exittime = exittime;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	public AttendeeDTO(String id, String name, String intime, String exittime) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.intime = intime;
-		this.exittime = exittme;
+		this.exittime = exittime;
 	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Date getIntime() {
-		return intime;
-	}
-
-	public void setIntime(Date intime) {
-		this.intime = intime;
-	}
-
-	public Date getExittme() {
-		return exittime;
-	}
-
-	public void setExittme(Date exittme) {
-		this.exittime = exittme;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -68,7 +55,6 @@ public class AttendeeDTO implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -85,12 +71,10 @@ public class AttendeeDTO implements Serializable {
 			return false;
 		return true;
 	}
-
 	@Override
 	public String toString() {
 		return "AttendeeDTO [id=" + id + ", name=" + name + ", intime=" + intime + ", exittime=" + exittime + "]";
 	}
-	
-	
-	
+
+
 }
