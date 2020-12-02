@@ -1,6 +1,7 @@
 package com.naver;
 
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class InsertEmployeeCommand implements Command{
 	
@@ -8,15 +9,25 @@ public class InsertEmployeeCommand implements Command{
 
 	@Override
 	public void execute(Scanner sc) {
-		try {
+		
 			System.out.println("사원 등록을 시작합니다.");
 			String id;
+			
+			
 			while (true) {
 				System.out.println("사원ID를 입력하세요");
 				id = sc.nextLine();
+				
+				// 사원 ID를 영문과 숫자로만 입력받을 수 있게 했어요
+				String p = "^[a-zA-Z0-9]*$";
+				// 영문, 숫자만 들어갔다면 true, 아니라면 false 반환합니다.
+				boolean i = Pattern.matches(p, id);
+				
 				if (id.length() != 8) {
-					System.out.println("사원ID는 8자리입니다.");
-				}else {
+					System.out.println("사원 ID는 8자리입니다.");
+				} else if(i == false) {
+					System.out.println("사원 ID는 영문과 숫자로만 입력하여 주세요.");
+				} else {
 					break;
 				}
 			}
@@ -34,12 +45,10 @@ public class InsertEmployeeCommand implements Command{
 			dao.insert(dto);
 			
 			
-		} catch (Exception e) {
-			System.out.println("중복된 ID입니다.");
-			e.printStackTrace();
+	
 		}
 		
-	}
+	
 
 	@Override
 	public String toString() {
