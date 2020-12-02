@@ -5,7 +5,9 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class AttendeeDAO {
 	
@@ -25,6 +27,41 @@ public class AttendeeDAO {
 		
 	}
 	
+	
+	
+	public List<AttendeeDTO> attendeeCheck() {
+		List<AttendeeDTO> list = new ArrayList<AttendeeDTO>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "select *from attendee ORDER BY id ASC";
+		
+		try {
+			conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+			pstmt = conn.prepareStatement(sql);		
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				String id = rs.getString("id");
+				String name = rs.getString("name");
+				String intime = rs.getString("intime");
+				String exittime = rs.getString("exittime");
+				AttendeeDTO dto = new AttendeeDTO(id, name, intime, exittime);
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeAll(rs, pstmt, conn);
+		}
+		
+		
+		return list;
+		
+	}
+	
 	public void deleteAttendee() {
 		
 		Connection conn = null;
@@ -38,7 +75,7 @@ public class AttendeeDAO {
 			pstmt.executeUpdate();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("초기화 과정에서 문제가 발생했습니다.");
 		} finally {
 			
 			closeAll(null, pstmt, conn);
@@ -50,7 +87,7 @@ public class AttendeeDAO {
 		AttendeeDTO dto = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String sql = "SELECT * FROM attendee WHERE is = ? ";
+		String sql = "SELECT * FROM attendee WHERE id = ? ";
 		ResultSet rs = null;
 		
 		try {
@@ -72,7 +109,8 @@ public class AttendeeDAO {
 			
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("등록되지 않은 사원 ID입니다.");
+			System.out.println("다시 한 번 확인 해 주세요.");
 		} finally {
 			closeAll(rs, pstmt, conn);
 		}
@@ -80,36 +118,11 @@ public class AttendeeDAO {
 		return dto;
 	}
 	
-	public void deletExittime(String id) {
-		
+	public void exittime(AttendeeDTO dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		String sql = "UPDATE attendee SET exittime = null WHERE id = ? ";
-		
-		try {
-			conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, id);
-			
-			pstmt.executeUpdate();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			
-			closeAll(null, pstmt, conn);
-		}
-		
-	}
-	
-	
-	
-	public void updateExittime(AttendeeDTO dto) {
-		
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		String sql = "UPDATE attendee SET exittime = ? WHERE id = ? ";
+		ResultSet rs = null;
+		String sql = "update attendee set exittime = ?  where id = ?";
 		
 		try {
 			conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
@@ -120,15 +133,14 @@ public class AttendeeDAO {
 			
 			pstmt.executeUpdate();
 			
-			
 		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			
-			closeAll(null, pstmt, conn);
+			System.out.println("출근 기록이 없는 사원입니다.");
+		}finally {
+			closeAll(rs, pstmt, conn);
 		}
 		
 	}
+	
 	
 	public void insertIntime(AttendeeDTO dto) {
 		
@@ -144,11 +156,13 @@ public class AttendeeDAO {
 			pstmt.setString(2, dto.getName());
 			pstmt.setString(3, dto.getIntime());
 			
+			System.out.println("출근 시간을 등록합니다.");
 			pstmt.execute();
-			
+			System.out.println("출근시간이 등록되었습니다.");
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("이미 출근 한 사원입니다.");
+			
 		} finally {
 			
 			closeAll(null, pstmt, conn);
@@ -169,7 +183,7 @@ public class AttendeeDAO {
 				conn.close();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("메모리가 해제되지 않았습니다.");
 		}
 	}
 	
