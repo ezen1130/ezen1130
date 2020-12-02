@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class EmployeeDAO {
 			
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("중복된 ID거나 사용할 수 없는 ID입니다. 다시 시도해주세요.");
 		}finally {
 			closeAll(rs, pstmt, conn);
 		}
@@ -102,7 +101,7 @@ public class EmployeeDAO {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("등록되지않은 사원ID입니다.");
 		}finally {
 			closeAll(rs, pstmt, conn);
 		}
@@ -111,6 +110,45 @@ public class EmployeeDAO {
 		
 		return dto;
 	}
+	
+public List<EmployeeDTO> selectByName(String name) {
+		
+		List<EmployeeDTO> list = new ArrayList<EmployeeDTO>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "SELECT * FROM employee WHERE name = ? ";
+		ResultSet rs = null;
+		
+		try {
+			conn = DriverManager.getConnection(URL, USER_NAME, USER_PASSWORD);
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, name);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				
+				String id = rs.getString("id");
+				String position = rs.getString("position");
+				
+				EmployeeDTO dto = new EmployeeDTO(id, name, position);
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			
+			System.out.println("등록되지 않은 사원 이름입니다.");
+			
+		} finally {
+			
+			closeAll(rs, pstmt, conn);
+		}
+
+		return list;
+		
+	}
+	
 	
 	public void update(EmployeeDTO dto) {
 		Connection conn = null;
@@ -128,7 +166,7 @@ public class EmployeeDAO {
 			pstmt.executeUpdate();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("등록되지않은 사원ID입니다.");
 		}finally {
 	
 			closeAll(null, pstmt, conn);
@@ -153,5 +191,35 @@ public class EmployeeDAO {
 		}
 	}
 	
+	public void delete(EmployeeDTO dto) {
+		// 출근정보 삭제 후 사원정보 삭제 (테이블 상속관계 때문에 이렇게 처리함)
+		// 실행 검증됨
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "DELETE FROM attendee WHERE id = ?";
+		String sql2 = "DELETE FROM employee WHERE id = ?";
+		
+		try {
+			conn = DriverManager.getConnection(URL, USER_NAME, USER_PASSWORD);
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getId());
+			pstmt.executeUpdate();
+			
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			
+			pstmt = conn.prepareStatement(sql2);
+			pstmt.setString(1, dto.getId());
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("삭제하지못했습니다.");
+		} finally {
+			closeAll(null, pstmt, conn);
+		}
+		
+	}
 	
 }

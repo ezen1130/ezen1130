@@ -2,13 +2,18 @@ package com.naver;
 
 import java.util.Scanner;
 
-public class EndCommand implements Command {
+public class EndCommand implements Command{
+	
+	// 시스템을 종료하는 메서드
+	
 
 	@Override
 	public void execute(Scanner sc) {
-		System.out.println("프로그램을 종료합니다.");
+		
 		sc.close();
+		System.out.println("출퇴근 정보가 초기화됩니다.");
 		System.exit(0);
+		
 	}
 
 	@Override
@@ -16,5 +21,7 @@ public class EndCommand implements Command {
 		return "종료";
 	}
 	
+	
+
 	
 }

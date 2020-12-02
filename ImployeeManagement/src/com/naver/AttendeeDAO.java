@@ -1,7 +1,6 @@
 package com.naver;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,26 +27,30 @@ public class AttendeeDAO {
 	public void intime(AttendeeDTO dto) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "insert into attendee values (?,?,?,?)";
+		String sql = "INSERT INTO attendee (id, name, intime) VALUES (?, ?, ?)";
 		
 		try {
 			conn = DriverManager.getConnection(URL, USER_NAME, USER_PASSWORD);
 			pstmt = conn.prepareStatement(sql);
-					
+			
 			pstmt.setString(1, dto.getId());
 			pstmt.setString(2, dto.getName());
 			pstmt.setString(3, dto.getIntime());
-			pstmt.setString(4, dto.getExittime());
 			
-			pstmt.executeUpdate();
+			try {
+				pstmt.execute();
+				System.out.println("출근체크가 되었습니다.");
+			} catch (Exception e) {
+				System.out.println("이미 출근처리가 되어있습니다.");
+			}
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally {
-			closeAll(rs, pstmt, conn);
+		} finally {
+			
+			closeAll(null, pstmt, conn);
 		}
-		
 	}
 	
 	public void exittime(AttendeeDTO dto) {
@@ -78,7 +81,7 @@ public class AttendeeDAO {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "select intime from attendee where id = ?";
+		String sql = "select *from attendee where id = ?";
 		
 		try {
 			
@@ -91,7 +94,8 @@ public class AttendeeDAO {
 			if (rs.next()) {
 				String name = rs.getString("name");
 				String intime = rs.getString("intime");
-				dto = new AttendeeDTO(id, name, intime, null);
+				String exittime = rs.getString("exittime");
+				dto = new AttendeeDTO(id, name, intime, exittime);
 			}
 			
 			
@@ -155,5 +159,63 @@ public class AttendeeDAO {
 			e.printStackTrace();
 		}
 	}
+	
+public void deleteAttendee() {
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "TRUNCATE TABLE attendee";
+		
+		try {
+			conn = DriverManager.getConnection(URL, USER_NAME, USER_PASSWORD);
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			
+			closeAll(null, pstmt, conn);
+		}
+	}
+public List<AttendeeDTO> checkAttendee() {
+	// 출근자정보 전체확인
+	// 실행 검증됨
+	List<AttendeeDTO> list = new ArrayList<AttendeeDTO>();
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	String sql = "SELECT * FROM attendee";
+	ResultSet rs = null;
+	
+	try {
+		conn = DriverManager.getConnection(URL, USER_NAME, USER_PASSWORD);
+		pstmt = conn.prepareStatement(sql);
+		
+		rs = pstmt.executeQuery();
+		
+		while (rs.next()) {
+			String id = rs.getString("id");
+			String name = rs.getString("name");
+			String intime = rs.getString("intime");
+			String exittime = rs.getString("exittime");
+			
+			AttendeeDTO dto = new AttendeeDTO(id, name, intime, exittime);
+			list.add(dto);
+			System.out.println(dto);
+		}
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		closeAll(rs, pstmt, conn);
+	}
+	
+	
+	return list;
+}
+
+
+
 	
 }

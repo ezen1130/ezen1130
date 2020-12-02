@@ -63,7 +63,7 @@ public class EmployeeDTO implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "EmployeeDTO [id=" + id + ", name=" + name + ", position=" + position + "]";
+		return "EmployeeDTO [사원번호: " + id +  ", 이름 : " + name +  ", 직책 : " + position + "]";
 	}
 
 	

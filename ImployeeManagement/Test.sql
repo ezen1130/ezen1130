@@ -1,17 +1,19 @@
 CREATE TABLE employee(
-id varchar2(10),
+id varchar2(8),
 name varchar2(15),
 position varchar2(15)
 )
+
+drop table employee
 
 alter table employee add constraint pk_employee_id primary key(id)
 
 select *from employee
 
 CREATE TABLE attendee(
-id varchar2(10),
+id varchar2(8),
 name varchar2(15),
-intime varchar2(15),
+intime varchar2(30),
 exittime varchar2(30)
 )
 
@@ -21,7 +23,8 @@ references employee(id)
 
 drop table attendee
 
-insert into  attendee (id, name, intime) values ('00000001','kim','2020-11-30') 
+insert into attendee (id,name) values ('00000001' , 'kim')
+
 select *from attendee
 
 commit
