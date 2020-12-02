@@ -42,7 +42,7 @@ public class EmployeeDAO {
 			
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("중복된 ID거나 사용할 수 없는 ID입니다. 다시 시도해주세요.");
 		}finally {
 			closeAll(rs, pstmt, conn);
 		}
@@ -101,7 +101,7 @@ public class EmployeeDAO {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("등록되지않은 사원ID입니다.");
 		}finally {
 			closeAll(rs, pstmt, conn);
 		}
@@ -110,6 +110,45 @@ public class EmployeeDAO {
 		
 		return dto;
 	}
+	
+public List<EmployeeDTO> selectByName(String name) {
+		
+		List<EmployeeDTO> list = new ArrayList<EmployeeDTO>();
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "SELECT * FROM employee WHERE name = ? ";
+		ResultSet rs = null;
+		
+		try {
+			conn = DriverManager.getConnection(URL, USER_NAME, USER_PASSWORD);
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, name);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				
+				String id = rs.getString("id");
+				String position = rs.getString("position");
+				
+				EmployeeDTO dto = new EmployeeDTO(id, name, position);
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			
+			System.out.println("등록되지 않은 사원 이름입니다.");
+			
+		} finally {
+			
+			closeAll(rs, pstmt, conn);
+		}
+
+		return list;
+		
+	}
+	
 	
 	public void update(EmployeeDTO dto) {
 		Connection conn = null;
@@ -127,7 +166,7 @@ public class EmployeeDAO {
 			pstmt.executeUpdate();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("등록되지않은 사원ID입니다.");
 		}finally {
 	
 			closeAll(null, pstmt, conn);
@@ -176,7 +215,7 @@ public class EmployeeDAO {
 			pstmt.executeUpdate();
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("삭제하지못했습니다.");
 		} finally {
 			closeAll(null, pstmt, conn);
 		}

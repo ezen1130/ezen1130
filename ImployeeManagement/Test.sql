@@ -1,15 +1,17 @@
 CREATE TABLE employee(
-id varchar2(10),
+id varchar2(8),
 name varchar2(15),
 position varchar2(15)
 )
+
+drop table employee
 
 alter table employee add constraint pk_employee_id primary key(id)
 
 select *from employee
 
 CREATE TABLE attendee(
-id varchar2(10),
+id varchar2(8),
 name varchar2(15),
 intime varchar2(30),
 exittime varchar2(30)

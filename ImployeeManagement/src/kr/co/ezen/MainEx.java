@@ -1,22 +1,14 @@
 package kr.co.ezen;
 
-
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Scanner;
-
-import com.naver.AttendeeDAO;
-import com.naver.AttendeeDTO;
 import com.naver.AttendeeSelectCommand;
 import com.naver.Command;
 import com.naver.DeleteAttendeeCommand;
-import com.naver.EmployeeDAO;
-import com.naver.EmployeeDTO;
 import com.naver.EmployeeDeleteCommand;
 import com.naver.EmployeeSelectCommand;
 import com.naver.EmployeeUpdateCommand;
-import com.naver.EndCommand;
 import com.naver.ExittimeCommand;
 import com.naver.InsertAttendeeCommand;
 import com.naver.InsertEmployeeCommand;
@@ -38,7 +30,7 @@ public class MainEx {
 		
 		
 		
-		
+	
 		boolean isOk = true;
 		int idx = -1;
 		

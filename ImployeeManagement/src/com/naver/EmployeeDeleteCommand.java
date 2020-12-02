@@ -6,12 +6,21 @@ public class EmployeeDeleteCommand implements Command {
 
 	@Override
 	public void execute(Scanner sc) {
-		System.out.println("삭제할 사원번호를 입력하세요.");
+		EmployeeDAO dao = new EmployeeDAO();
+		
+		System.out.println("삭제할 사원ID를 입력하세요.");
 		String id = sc.nextLine();
 		
-		EmployeeDTO dto = new EmployeeDTO(id, null, null);
-		EmployeeDAO dao = new EmployeeDAO();
-		dao.delete(dto);
+		EmployeeDTO dto = dao.selectById(id);
+		
+		if (dto != null) {
+			EmployeeDTO edto = new EmployeeDTO(id, null, null);
+			EmployeeDAO edao = new EmployeeDAO();
+			dao.delete(edto);
+			System.out.println("삭제처리되었습니다.");
+		}else {
+			System.out.println("등록되지않은 ID입니다 다시 시도해주세요.");
+		}
 	}
 	
 	@Override
