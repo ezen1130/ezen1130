@@ -1,6 +1,6 @@
 package com.naver;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,7 +22,7 @@ public class EmployeeSelectCommand implements Command{
 
 	@Override
 	public String toString() {
-		return "사원조회";
+		return "사원정보조회";
 	}
 		
 	

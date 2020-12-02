@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class DefaltLoading {
-	
+
 	// 중복되는 변수 클래스에 담아서 friendly처리 (같은 패키지 내에서만 사용가능)
 	String DRIVER = "oracle.jdbc.OracleDriver";
 	String URL = "jdbc:oracle:thin:@localhost:1521:xe";
@@ -17,7 +17,6 @@ public class DefaltLoading {
 		// 실행 검증됨
 		try {
 			Class.forName(DRIVER);
-			System.out.println("드라이버 로딩 성공");
 		} catch (ClassNotFoundException e) {
 			System.out.println("드라이버 로딩 실패");
 			e.printStackTrace();

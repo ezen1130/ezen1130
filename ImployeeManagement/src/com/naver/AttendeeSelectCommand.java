@@ -8,8 +8,8 @@ public class AttendeeSelectCommand implements Command {
 	@Override
 	public void execute(Scanner sc) {
 		AttendeeDAO dao = new AttendeeDAO();
-		List<AttendeeDTO> list =  dao.checkAttendee();
-		
+		List<AttendeeDTO> list = dao.checkAttendee();
+
 		for (int i = 0; i < list.size(); i++) {
 			list.get(i);
 		}
@@ -17,9 +17,7 @@ public class AttendeeSelectCommand implements Command {
 
 	@Override
 	public String toString() {
-		return "출근자조회";
+		return "출퇴근기록";
 	}
 
-	
-	
 }
