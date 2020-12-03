@@ -13,9 +13,7 @@ public class EmployeeUpdateCommand implements Command{
 		EmployeeDTO odto = dao.selectById(id);
 		
 		try {
-			if (odto.getId() == null) {
-				return;
-			}
+			odto.getId();
 		} catch (Exception e) {
 			System.out.println("등록되지 않은 ID입니다.");
 			return;

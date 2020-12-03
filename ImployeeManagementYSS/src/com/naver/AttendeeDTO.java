@@ -85,7 +85,7 @@ public class AttendeeDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "AttendeeDTO [id=" + id + ", name=" + name + ", intime=" + intime + ", exittime=" + exittime + "]";
+		return "[사원ID: "+id+" | "+"이름: "+name+" | "+"출근시간: "+intime+" | "+"퇴근시간: "+exittime+"]";
 	}
 
 }

@@ -11,7 +11,7 @@ public class AttendeeDeleteEndCommand implements Command {
 	public void execute(Scanner sc) {
 		
 		System.out.println("프로그램을 종료합니다");
-		System.out.println("정말 종료하시겠습니까? 종료시 출퇴근 정보가 초기화됩니다.");
+		System.out.println("정말 종료하시겠습니까? 종료시 출퇴근기록이 초기화됩니다.");
 		System.out.println("1: 종료하기, 2: 돌아가기");
 		
 		int key = sc.nextInt();
