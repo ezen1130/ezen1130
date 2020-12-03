@@ -13,6 +13,7 @@ public class AttendeeDAO {
 	
 	public void intime(AttendeeDTO dto) {
 		// 출근하기
+		// 실행 검증됨
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String sql = "INSERT INTO attendee (id, name, intime) VALUES (?, ?, ?)";
@@ -29,7 +30,7 @@ public class AttendeeDAO {
 				pstmt.execute();
 				System.out.println("출근시간이 등록되었습니다.");
 			} catch (Exception e) {
-				System.out.println("이미 처리되었습니다.");
+				System.out.println("이미 출근처리되었습니다.");
 			}
 
 		} catch (Exception e) {
@@ -40,7 +41,7 @@ public class AttendeeDAO {
 	}
 
 	public AttendeeDTO selectById(String id) {
-		// 출근자정보 id로 정보 조회하기
+		// 출퇴근기록 id로 정보 조회하기
 		AttendeeDTO dto = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -75,6 +76,7 @@ public class AttendeeDAO {
 	
 	public void exittime(AttendeeDTO dto) {
 		// 퇴근하기
+		// 실행 검증됨
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -131,6 +133,7 @@ public class AttendeeDAO {
 
 	public List<AttendeeDTO> attendeeCheck() {
 		// 출퇴근 리스트 체크
+		// 실행 검증됨
 		List<AttendeeDTO> list = new ArrayList<AttendeeDTO>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -164,6 +167,7 @@ public class AttendeeDAO {
 
 	public void deleteAttendee() {
 		// 출근자 테이블 레코드 초기화
+		// 실행 검증됨
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String sql = "TRUNCATE TABLE attendee";
@@ -183,7 +187,7 @@ public class AttendeeDAO {
 	}
 
 	public List<AttendeeDTO> checkAttendee() {
-		// 출근자 리스트 조회
+		// 출퇴근기록 조회
 		// 실행 검증됨
 		List<AttendeeDTO> list = new ArrayList<AttendeeDTO>();
 		Connection conn = null;

@@ -13,6 +13,7 @@ public class EmployeeDAO {
 
 	public void insert(EmployeeDTO dto) {
 		// 사원등록
+		// 실행 검증됨
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String sql = "INSERT INTO employee2 VALUES (?, ?, ?)";
@@ -43,6 +44,7 @@ public class EmployeeDAO {
 
 	public List<EmployeeDTO> select() {
 		// 사원 리스트 조회
+		// 실행 검증됨
 		List<EmployeeDTO> list = new ArrayList<EmployeeDTO>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -92,7 +94,6 @@ public class EmployeeDAO {
 				String position = rs.getString("position");
 				dto = new EmployeeDTO(id, name, position);
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -104,6 +105,8 @@ public class EmployeeDAO {
 
 	public void update(EmployeeDTO dto) {
 		// 사원정보 수정
+		// 사원ID 유무 확인하지 않고 명령을 처리함
+		// 사원ID가 없을 경우, 오류메세지 출력되도록 해야함.
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		String sql = "UPDATE employee2 SET name = ?, position = ? WHERE id = ?";
@@ -121,7 +124,6 @@ public class EmployeeDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-
 			loading.closeAll(null, pstmt, conn);
 		}
 

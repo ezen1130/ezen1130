@@ -22,7 +22,7 @@ public class EmployeeSelectCommand implements Command{
 
 	@Override
 	public String toString() {
-		return "사원정보조회";
+		return "사원정보 전체조회";
 	}
 		
 	
