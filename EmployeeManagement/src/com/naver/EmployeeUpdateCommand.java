@@ -13,13 +13,20 @@ public class EmployeeUpdateCommand implements Command{
 	public void execute(Scanner sc) {
 		
 		EmployeeDAO dao = new EmployeeDAO();
-		EmployeeDTO dto = null;
 		
-		System.out.println("사원ID를 입력하시오.");
+		System.out.println("사원 ID를 입력해주세요.");
 		String id = sc.nextLine();
 		EmployeeDTO oDto = dao.selectById(id);
 		
-		
+		try {
+			oDto.getId();
+			
+		} catch (Exception e) {
+			System.out.println("등록되지 않은 ID입니다.");
+			System.out.println("사원정보 변경을 처음부터 다시 시작해주세요.");
+			return;
+		}
+	
 		System.out.println("수정 할 메뉴를 선택하세요.");
 		System.out.println("1: 이름, 2: 직급");
 		
@@ -30,16 +37,16 @@ public class EmployeeUpdateCommand implements Command{
 		case 1:
 			System.out.println("수정 할 이름을 입력하세요.");
 			String nName = sc.nextLine();
-			dto = new EmployeeDTO(id, nName,oDto.getPosition());
-			dao.update(oDto);
+			EmployeeDTO dto = new EmployeeDTO(oDto.getId(), nName,oDto.getPosition());
+			dao.update(dto);
 			System.out.println("이름이 "+nName+"으로 수정되었습니다.");
 			break;
 			
 		case 2:
 			System.out.println("변경 할 직급을 입력하세요.");
 			String nPosition = sc.nextLine();
-			dto = new EmployeeDTO(id, oDto.getName(), nPosition);
-			dao.update(oDto);
+			dto = new EmployeeDTO(oDto.getId(), oDto.getName(), nPosition);
+			dao.update(dto);
 			
 			if(nPosition.contains("a")) {
 				dto.setPosition("부장");

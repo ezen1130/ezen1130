@@ -67,7 +67,7 @@ public class EmployeeDAO {
 			
 			rs = pstmt.executeQuery();
 			
-			System.out.println("====================[사원 리스트]====================");
+		
 			while (rs.next()) {
 				String id = rs.getString("사원번호");
 				String name = rs.getString("이름");

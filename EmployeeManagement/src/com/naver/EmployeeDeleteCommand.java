@@ -13,6 +13,17 @@ public class EmployeeDeleteCommand implements Command {
 		
 		System.out.println("삭제할 사원번호를 입력하세요.");
 		String id = sc.nextLine();
+		EmployeeDTO oDto = dao.selectById(id);
+		
+		try {
+			if(oDto.getId() == null) {
+				return;
+			}
+		} catch (Exception e) {
+			System.out.println("등록되지 않은 ID입니다.");
+			System.out.println("사원 삭제를 처음부터 다시 시작해주세요.");
+			return;
+		}
 		
 		EmployeeDTO dto = dao.selectById(id);
 		

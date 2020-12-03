@@ -96,6 +96,7 @@ public class EmployeeSelectCommand implements Command{
 				
 				for (int i = 0; i < nameList.size(); i++) {
 					
+					
 					dto = nameList.get(i);
 					position = dto.getPosition();
 					
